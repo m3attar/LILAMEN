@@ -30,11 +30,7 @@ export default async function ProductPage({
         </div>
         <div className="product-detail">
           <div className="detail-art">
-            <img
-              src={p.image}
-              alt={`LILAMEN ${p.name} wooden scent cube concept illustration`}
-            />
-            <span>Original concept visual · final product may differ</span>
+            <img src={p.image} alt={p.imageAlt} width={1254} height={1254} />
           </div>
           <div className="detail-copy">
             <p className="eyebrow" style={{ color: p.color }}>

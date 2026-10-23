@@ -33,8 +33,10 @@ export default function Home() {
         </div>
         <div className="hero-art">
           <img
-            src="/visuals/hero.svg"
-            alt="Original concept illustration of LILAMEN wooden cubes in warm afternoon light"
+            src={products[1].image}
+            alt={products[1].imageAlt}
+            width={1254}
+            height={1254}
             fetchPriority="high"
           />
           <span className="art-note">A STUDY IN SCENT & SIMPLICITY</span>
@@ -87,8 +89,10 @@ export default function Home() {
       <section className="story-feature">
         <div className="story-art">
           <img
-            src="/visuals/story.svg"
-            alt="Concept illustration of the grain and geometry of wooden cubes"
+            src={products[4].image}
+            alt={products[4].imageAlt}
+            width={1254}
+            height={1254}
             loading="lazy"
           />
           <span>LESS, WITH MORE FEELING.</span>

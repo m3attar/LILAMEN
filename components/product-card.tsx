@@ -18,7 +18,9 @@ export function ProductCard({
         <span className="product-index">0{index + 1} / THE COLLECTION</span>
         <img
           src={p.image}
-          alt={`Concept illustration of a LILAMEN ${p.name} wooden scent cube`}
+          alt={p.imageAlt}
+          width={1254}
+          height={1254}
           loading="lazy"
         />
         <span className="explore-product">

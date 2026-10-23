@@ -54,7 +54,7 @@ components/
 lib/
   products.ts                      Typed catalog; all prices are null
   cart.ts                          Defensive cart normalization and totals
-public/visuals/                     Seven original SVG concept illustrations
+public/visuals/                     Five original product PNGs and retained SVG assets
  tests/cart.test.ts                 Cart and catalog unit tests
  tests/browser.mjs                  Real Chromium end-to-end checks
  tests/serve-export.py              Local production QA server
@@ -66,7 +66,7 @@ public/visuals/                     Seven original SVG concept illustrations
 - Product prices are deliberately `null` in `lib/products.ts`; the UI says **Price pending**. No fake prices, reviews, specifications, or certifications.
 - Cart quantities are whole numbers from 1–99. Unknown products are discarded, duplicate products are merged, corrupt stored JSON is handled, and unavailable storage is reported. The cart persists across navigation and reloads and synchronizes storage changes across tabs.
 - Subtotals stay **Pending prices** when any included product lacks a confirmed price. Checkout is disabled for every preview bag. Adding an item neither reserves inventory nor creates an order.
-- Visuals are original concept illustrations, not photographs of a verified final product.
+- Product imagery uses the five supplied original PNGs, preserved byte-for-byte at 1254 × 1254 pixels. The earlier SVG illustrations remain in the repository, but storefront imagery uses the PNGs.
 - Contact details have not been supplied. The Contact page clearly says the channel is not open and does not collect personal data.
 - There are no payment, shipping, tax, inventory, order management, authentication, analytics, email, or contact submission integrations in this storefront.
 
@@ -75,3 +75,17 @@ public/visuals/                     Seven original SVG concept illustrations
 Supply and approve prices, availability, final product photographs, dimensions, materials, ingredients, use and safety guidance. Confirm shipping regions, fulfillment, taxes, returns and privacy/terms. Configure a payment provider using server-side secrets and authoritative server-side pricing; verify signed payment webhooks, order records and stock handling. Add a working support channel and transactional email. Test checkout, refunds, accessibility, and the exact iPad/Safari versions you support. Changing a price field alone must not enable checkout.
 
 See `VERIFICATION.md` for actual run results and the DisposableStack investigation.
+
+## Original product image mapping
+
+The ZIP mislabeled Lemon and Berry; the public asset names follow the confirmed visible colors. Product pages, cards, related products and the cart use the shared image paths and alt text in `lib/products.ts`. The homepage hero uses Oud and the story sections use Papaya.
+
+| Scent      | Public asset                    | Visible cube color    | Original ZIP filename |
+| ---------- | ------------------------------- | --------------------- | --------------------- |
+| Lemon      | `public/visuals/lemon.png`      | Yellow/gold           | `berry.png`           |
+| Berry      | `public/visuals/berry.png`      | Bright red            | `lemon.png`           |
+| Blue Magic | `public/visuals/blue-magic.png` | Blue                  | `blue-magic.png`      |
+| Papaya     | `public/visuals/papaya.png`     | Lighter rust-red      | `papaya.png`          |
+| Oud        | `public/visuals/oud.png`        | Darkest reddish-brown | `oud.png`             |
+
+The separate owner-private image-review preview is https://lilamen-image-review.cozyisle5.chatgpt.site. It does not replace the original published prototype. GitHub source synchronization does not itself authorize a Site deployment.

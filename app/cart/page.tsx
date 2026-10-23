@@ -35,7 +35,12 @@ export default function Cart() {
               return (
                 <article className="cart-item" key={p.slug}>
                   <Link href={`/products/${p.slug}/`}>
-                    <img src={p.image} alt={`${p.name} cube concept`} />
+                    <img
+                      src={p.image}
+                      alt={p.imageAlt}
+                      width={1254}
+                      height={1254}
+                    />
                   </Link>
                   <div>
                     <p className="eyebrow">{p.family}</p>

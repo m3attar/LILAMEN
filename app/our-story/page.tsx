@@ -1,3 +1,4 @@
+import { products } from "@/lib/products";
 import { Arrow } from "@/components/arrow";
 import Link from "next/link";
 export const metadata = { title: "Our story" };
@@ -18,8 +19,10 @@ export default function Story() {
       <section className="story-feature">
         <div className="story-art">
           <img
-            src="/visuals/story.svg"
-            alt="Original illustration exploring wooden cube forms"
+            src={products[4].image}
+            alt={products[4].imageAlt}
+            width={1254}
+            height={1254}
           />
         </div>
         <div className="story-copy">

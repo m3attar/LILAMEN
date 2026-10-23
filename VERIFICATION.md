@@ -27,10 +27,18 @@ Searches found no `DisposableStack` reference in application source, Next.js cli
 
 The original failing page, stack trace and preview runtime were not supplied. Evidence therefore does not establish whether that original error came from a different application, dependency version, or preview environment. No polyfill was added. Direct iPad Safari and preview-host internals were not available for testing here.
 
-The interface uses ordinary React state, localStorage with guarded reads/writes, and standard DOM events. Original SVGs and inline SVG arrow icons avoid remote font and special-glyph dependencies. Tailwind 4's supported Safari baseline is Safari 16.4; test the actual iPadOS/Safari versions intended for support before launch.
+The interface uses ordinary React state, localStorage with guarded reads/writes, and standard DOM events. The supplied product PNGs and inline SVG arrow icons avoid remote font and special-glyph dependencies. Tailwind 4's supported Safari baseline is Safari 16.4; test the actual iPadOS/Safari versions intended for support before launch.
 
 ## Remaining launch work
 
 Confirm all prices, product specifications, images, ingredients, safety/use instructions and stock availability. Provide an official support channel. Implement and verify server-authoritative pricing, a payment provider, signed payment webhooks, order records, inventory, shipping, taxes, fulfillment and transactional emails. Approve privacy, terms, return policies and public hosting access. Run direct Safari/iPad and complete checkout/refund testing.
 
 No real order, payment, inventory or shipping integration exists in this prototype. No payment or contact details are collected. Checkout remains disabled even if a catalog price is later edited.
+
+## Product-image update and GitHub preparation
+
+The current image update passed TypeScript, ESLint (no warnings), all five unit tests, and the production build again before GitHub preparation. All five 1254 × 1254 public PNGs match the previously verified ZIP extraction byte-for-byte, including the confirmed Lemon/Berry filename swap.
+
+The homepage, shop, all five detail pages, related-product sections and cart consistently reference the mapped PNGs. `object-fit: contain` and automatic image height preserve proportions. The original images have not been recolored or recompressed. The existing Chromium browser suite passed all 20 check groups again before this commit, including routes, images, responsive layouts, keyboard skip navigation, cart persistence and the custom 404. Direct iPad Safari testing remains unverified.
+
+The separate private image-review Site remains available for device review; the original published Site has not been replaced. The GitHub task changes source control only and does not deploy either Site. Product prices, descriptions and disabled checkout behavior are unchanged. Installed dependencies (`node_modules`), build output, scratch files, `.env` files and credentials are excluded from the commit. Existing tests and configuration are retained in the earlier storefront commit in the same history.
