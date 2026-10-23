@@ -39,7 +39,9 @@ test("five unique products have local visuals and preview status", () => {
   assert.equal(new Set(products.map((p) => p.slug)).size, 5);
   assert.ok(
     products.every(
-      (p) => p.availability === "preview" && p.image.startsWith("/visuals/"),
+      (p) =>
+        p.availability === "preview" &&
+        p.image.endsWith(`/visuals/${p.slug}.png`),
     ),
   );
 });

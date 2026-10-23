@@ -42,3 +42,9 @@ The current image update passed TypeScript, ESLint (no warnings), all five unit 
 The homepage, shop, all five detail pages, related-product sections and cart consistently reference the mapped PNGs. `object-fit: contain` and automatic image height preserve proportions. The original images have not been recolored or recompressed. The existing Chromium browser suite passed all 20 check groups again before this commit, including routes, images, responsive layouts, keyboard skip navigation, cart persistence and the custom 404. Direct iPad Safari testing remains unverified.
 
 The separate private image-review Site remains available for device review; the original published Site has not been replaced. The GitHub task changes source control only and does not deploy either Site. Product prices, descriptions and disabled checkout behavior are unchanged. Installed dependencies (`node_modules`), build output, scratch files, `.env` files and credentials are excluded from the commit. Existing tests and configuration are retained in the earlier storefront commit in the same history.
+
+## GitHub Pages compatibility
+
+The static export was built and browser-tested at `/LILAMEN/` and at the default root path. Both production builds passed, and all 20 Chromium browser-check groups passed for each path. TypeScript, ESLint and all five unit tests passed. Prefixed Next.js navigation, framework assets, product PNGs, nested product routes, custom 404 links and the persistent client-side cart were checked.
+
+The Pages workflow uploads only `out/`; it does not expose source files, `.env` files, installed dependencies or credentials. The public base path is build configuration, not a secret. GitHub Pages remains a storefront prototype with checkout disabled. Actual deployment status must be verified in GitHub Actions; local compatibility tests alone do not establish a live public URL. No ChatGPT-hosted Site is deployed or reconfigured by this workflow.

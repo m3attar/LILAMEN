@@ -1,0 +1,77 @@
+name: Deploy LILAMEN to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+    env:
+      NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Build static export
+        run: npm run build
+      - name: TypeScript
+        run: npm run typecheck
+      - name: ESLint
+        run: npm run lint
+      - name: Unit tests
+        run: npm test
+      - name: Install browser for verification
+        run: npx playwright install --with-deps chromium
+      - name: Verify the GitHub Pages build in Chromium
+        env:
+          QA_BASE_PATH: ${{ env.NEXT_PUBLIC_BASE_PATH }}
+        run: |
+          mkdir -p work
+          python3 tests/serve-export.py --base-path "$NEXT_PUBLIC_BASE_PATH" > "$RUNNER_TEMP/lilamen-preview.log" 2>&1 &
+          preview_pid=$!
+          trap 'kill "$preview_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent "http://localhost:3000$NEXT_PUBLIC_BASE_PATH/" > /dev/null; then break; fi
+            sleep 1
+          done
+          npm run test:browser
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Preserve Next.js assets on Pages
+        run: touch out/.nojekyll
+      - name: Upload only the public static export
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

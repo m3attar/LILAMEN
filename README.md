@@ -89,3 +89,20 @@ The ZIP mislabeled Lemon and Berry; the public asset names follow the confirmed 
 | Oud        | `public/visuals/oud.png`        | Darkest reddish-brown | `oud.png`             |
 
 The separate owner-private image-review preview is https://lilamen-image-review.cozyisle5.chatgpt.site. It does not replace the original published prototype. GitHub source synchronization does not itself authorize a Site deployment.
+
+## GitHub Pages
+
+The existing Next.js static export also supports the GitHub project path `/LILAMEN/`. `.github/workflows/pages.yml` builds and verifies the site on pushes to `main` and manual workflow runs, then uploads only `out/` and deploys it through GitHub Pages. No personal access token or new repository secret is required. The workflow uses the built-in GitHub token with `contents: read`, `pages: write`, and deployment-only `id-token: write` permissions.
+
+One-time repository setup: in **Settings → Pages → Build and deployment → Source**, select **GitHub Actions**. The built-in workflow token cannot enable a previously disabled Pages site; this requires a repository-owner setting. Once enabled, inspect the workflow's deployment result for its actual public URL.
+
+To reproduce the project-path build locally:
+
+```sh
+NEXT_PUBLIC_BASE_PATH=/LILAMEN npm run build
+python3 tests/serve-export.py --base-path /LILAMEN
+# In a second terminal:
+QA_BASE_PATH=/LILAMEN npm run test:browser
+```
+
+`NEXT_PUBLIC_BASE_PATH` is public build configuration, not a secret. Next.js prefixes navigation and framework assets; `lib/asset-path.ts` prefixes the original product image URLs. Leaving it unset preserves root-path builds for the existing ChatGPT-hosted Sites. The cart remains browser-local, checkout stays disabled, and GitHub Pages does not add payment or order processing. Cart data is separate on each hosting origin.

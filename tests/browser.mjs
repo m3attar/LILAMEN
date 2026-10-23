@@ -37,6 +37,7 @@ page.on("requestfailed", (r) =>
   failed.push(r.url() + ": " + r.failure()?.errorText),
 );
 const origin = process.env.QA_ORIGIN || "http://localhost:3000";
+const site = origin + (process.env.QA_BASE_PATH || "");
 const routes = [
   "/",
   "/shop/",
@@ -50,7 +51,7 @@ const routes = [
   "/cart/",
 ];
 for (const route of routes) {
-  const response = await page.goto(origin + route, {
+  const response = await page.goto(site + route, {
     waitUntil: "networkidle",
   });
   assert.equal(response.status(), 200, route);
@@ -68,7 +69,7 @@ for (const route of routes) {
   assert.equal(overflow, false, route);
   results.push(`PASS route and images ${route}`);
 }
-await page.goto(origin + "/products/oud/");
+await page.goto(site + "/products/oud/");
 await page.getByRole("button", { name: "Add to bag" }).click();
 await page.getByRole("link", { name: "View bag" }).click();
 await page.getByRole("heading", { name: "Oud", exact: true }).waitFor();
@@ -125,7 +126,7 @@ assert.equal(
 results.push("PASS missing product and invalid quantity recovery");
 const links = new Set();
 for (const route of routes) {
-  await page.goto(origin + route);
+  await page.goto(site + route);
   for (const href of await page
     .locator("a[href]")
     .evaluateAll((links) => links.map((a) => a.getAttribute("href")))) {
@@ -137,7 +138,7 @@ for (const href of links) {
   assert.equal(response.status(), 200, href);
 }
 results.push(`PASS all ${links.size} internal link targets`);
-await page.goto(origin + "/");
+await page.goto(site + "/");
 await page.screenshot({ path: "work/desktop.png", fullPage: true });
 for (const viewport of [
   { width: 390, height: 844 },
@@ -146,7 +147,7 @@ for (const viewport of [
 ]) {
   await page.setViewportSize(viewport);
   for (const route of routes) {
-    await page.goto(origin + route);
+    await page.goto(site + route);
     assert.equal(
       await page.evaluate(
         () => document.documentElement.scrollWidth > innerWidth,
@@ -155,7 +156,7 @@ for (const viewport of [
       `overflow ${viewport.width} ${route}`,
     );
   }
-  await page.goto(origin + "/");
+  await page.goto(site + "/");
   await page.screenshot({
     path: `work/layout-${viewport.width}.png`,
     fullPage: true,
@@ -173,7 +174,7 @@ for (const viewport of [
   );
 }
 await page.setViewportSize({ width: 1440, height: 1000 });
-await page.goto(origin + "/");
+await page.goto(site + "/");
 await page.keyboard.press("Tab");
 assert.equal(
   await page.evaluate(() => document.activeElement.textContent),
@@ -184,7 +185,7 @@ assert.equal(await page.evaluate(() => location.hash), "#main");
 results.push("PASS keyboard skip navigation");
 const before404 = errors.length;
 testing404 = true;
-const response404 = await page.goto(origin + "/this-page-does-not-exist/");
+const response404 = await page.goto(site + "/this-page-does-not-exist/");
 assert.equal(response404.status(), 404);
 await page
   .getByRole("heading", { name: "This scent trail ends here." })
