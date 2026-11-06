@@ -45,6 +45,6 @@ The separate private image-review Site remains available for device review; the 
 
 ## GitHub Pages compatibility
 
-The static export was built and browser-tested at `/LILAMEN/` and at the default root path. Both production builds passed, and all 20 Chromium browser-check groups passed for each path. TypeScript, ESLint and all five unit tests passed. Prefixed Next.js navigation, framework assets, product PNGs, nested product routes, custom 404 links and the persistent client-side cart were checked.
+The static export was built and browser-tested at the root path used by `https://liliamen.com/`. All 20 Chromium browser-check groups passed. TypeScript, ESLint and all five unit tests passed. Root-relative Next.js navigation, framework assets, product PNGs, nested product routes, custom 404 links and the persistent client-side cart were checked.
 
 The Pages workflow uploads only `out/`; it does not expose source files, `.env` files, installed dependencies or credentials. The public base path is build configuration, not a secret. GitHub Pages remains a storefront prototype with checkout disabled. Actual deployment status must be verified in GitHub Actions; local compatibility tests alone do not establish a live public URL. No ChatGPT-hosted Site is deployed or reconfigured by this workflow.

@@ -92,17 +92,17 @@ The separate owner-private image-review preview is https://lilamen-image-review.
 
 ## GitHub Pages
 
-The existing Next.js static export also supports the GitHub project path `/LILAMEN/`. `.github/workflows/pages.yml` builds and verifies the site on pushes to `main` and manual workflow runs, then uploads only `out/` and deploys it through GitHub Pages. No personal access token or new repository secret is required. The workflow uses the built-in GitHub token with `contents: read`, `pages: write`, and deployment-only `id-token: write` permissions.
+The Next.js static export is deployed at the root custom domain `https://liliamen.com/`. `.github/workflows/pages.yml` builds and verifies the site on pushes to `main` and manual workflow runs, then uploads only `out/` and deploys it through GitHub Pages. The exported `CNAME` preserves the custom domain. No personal access token or new repository secret is required. The workflow uses the built-in GitHub token with `contents: read`, `pages: write`, and deployment-only `id-token: write` permissions.
 
 One-time repository setup: in **Settings → Pages → Build and deployment → Source**, select **GitHub Actions**. The built-in workflow token cannot enable a previously disabled Pages site; this requires a repository-owner setting. Once enabled, inspect the workflow's deployment result for its actual public URL.
 
-To reproduce the project-path build locally:
+To reproduce the root-domain build locally:
 
 ```sh
-NEXT_PUBLIC_BASE_PATH=/LILAMEN npm run build
-python3 tests/serve-export.py --base-path /LILAMEN
+npm run build
+python3 tests/serve-export.py
 # In a second terminal:
-QA_BASE_PATH=/LILAMEN npm run test:browser
+npm run test:browser
 ```
 
-`NEXT_PUBLIC_BASE_PATH` is public build configuration, not a secret. Next.js prefixes navigation and framework assets; `lib/asset-path.ts` prefixes the original product image URLs. Leaving it unset preserves root-path builds for the existing ChatGPT-hosted Sites. The cart remains browser-local, checkout stays disabled, and GitHub Pages does not add payment or order processing. Cart data is separate on each hosting origin.
+Framework assets, navigation, and product images use root-relative URLs for the custom domain. The cart remains browser-local, checkout stays disabled, and GitHub Pages does not add payment or order processing. Cart data is separate on each hosting origin.
