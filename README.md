@@ -51,7 +51,7 @@ components/
   cart-provider.tsx                localStorage state and synchronization
   product-card.tsx                  Reusable product UI
   purchase-builder.tsx              Package and scent selection
-  contact-form.tsx                  Validated FormSubmit integration
+  contact-form.tsx                  Validated Web3Forms integration
   arrow.tsx                        Font-independent SVG icon
 lib/
   products.ts                      Typed five-scent catalog
@@ -69,12 +69,21 @@ public/visuals/                     Five original product PNGs and retained SVG 
 - Each cart line preserves its purchase option and scent quantities. Identical or different selections remain separate lines; line quantities are whole numbers from 1–99. Invalid packages and corrupt stored JSON are discarded. The cart persists across navigation and reloads and synchronizes storage changes across tabs.
 - Subtotals use the fixed package prices. Checkout remains disabled while payment, shipping and order operations are unfinished. Adding a selection neither reserves inventory nor creates an order.
 - Product imagery uses the five supplied original PNGs, preserved byte-for-byte at 1254 × 1254 pixels. The earlier SVG illustrations remain in the repository, but storefront imagery uses the PNGs.
-- Contact messages submit to `lilamen2026@gmail.com` through FormSubmit's static-site-compatible AJAX endpoint. The mailbox owner must approve FormSubmit's one-time activation email after the first submission. No private key is stored in the frontend.
+- Contact messages use Web3Forms' native HTML POST integration, avoiding cross-origin JavaScript and CORS preflight. Web3Forms uses the customer's `email` field as Reply-To by default and sends to the address associated with the access key. The access key is intentionally public and contains no private credentials.
 - There are no payment, shipping, tax, inventory, order management, authentication, analytics, or transactional email integrations in this storefront.
 
 ## Before accepting real orders
 
-Approve availability, final product photographs, dimensions, materials, ingredients, use and safety guidance. Confirm shipping regions, fulfillment, taxes, returns and privacy/terms. Activate FormSubmit from the email sent to `lilamen2026@gmail.com`. Configure a payment provider using server-side secrets and authoritative server-side pricing; verify signed payment webhooks, order records and stock handling. Test checkout, refunds, accessibility, and the exact iPad/Safari versions you support.
+Approve availability, final product photographs, dimensions, materials, ingredients, use and safety guidance. Confirm shipping regions, fulfillment, taxes, returns and privacy/terms. Configure a payment provider using server-side secrets and authoritative server-side pricing; verify signed payment webhooks, order records and stock handling. Test checkout, refunds, accessibility, and the exact iPad/Safari versions you support.
+
+## Contact form setup
+
+1. Request a free Web3Forms access key for `lilamen2026@gmail.com` at `https://web3forms.com/` and retrieve it from that mailbox.
+2. In the GitHub repository, open **Settings → Secrets and variables → Actions → Variables**.
+3. Create a repository variable named `WEB3FORMS_ACCESS_KEY` with the access key as its value.
+4. Re-run the **Deploy LILAMEN to GitHub Pages** workflow (or push a commit) so Next.js embeds the public access key during the static build.
+
+Until the variable exists, the form fails safely with a direct-email fallback instead of attempting an unconfigured request or showing a false success. After a successful Web3Forms response, the service redirects to `/contact/?sent=1`; only that accepted redirect produces the local success message.
 
 See `VERIFICATION.md` for actual run results and the DisposableStack investigation.
 

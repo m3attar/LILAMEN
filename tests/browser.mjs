@@ -188,6 +188,16 @@ assert.equal(
 results.push("PASS invalid package and quantity recovery");
 
 await page.goto(site + "/contact/");
+const contactForm = page.locator("form.contact-form");
+assert.equal(
+  await contactForm.getAttribute("action"),
+  "https://api.web3forms.com/submit",
+);
+assert.equal(await contactForm.getAttribute("method"), "POST");
+assert.equal(
+  await page.getByLabel(/Customer email/).getAttribute("name"),
+  "email",
+);
 await page.getByRole("button", { name: "Send message" }).click();
 assert.ok(
   await page.getByText("Please enter your email so we can reply.").isVisible(),
@@ -199,7 +209,7 @@ await page.getByRole("button", { name: "Send message" }).click();
 assert.ok(
   await page.getByText("Please enter a valid email address.").isVisible(),
 );
-results.push("PASS contact required fields and email validation");
+results.push("PASS contact native POST wiring, Reply-To field, and validation");
 const links = new Set();
 for (const route of routes) {
   await page.goto(site + route);

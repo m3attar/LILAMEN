@@ -1,6 +1,8 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+
+const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || "";
 
 type FormStatus = {
   type: "idle" | "sending" | "success" | "error";
@@ -14,8 +16,24 @@ export function ContactForm() {
     message: "",
   });
 
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("sent") === "1") {
+      setStatus({
+        type: "success",
+        message:
+          "Thank you. Your message has been accepted and sent to LILAMEN.",
+      });
+      url.searchParams.delete("sent");
+      window.history.replaceState(
+        {},
+        "",
+        `${url.pathname}${url.search}${url.hash}`,
+      );
+    }
+  }, []);
+
   async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
     const form = event.currentTarget;
     const data = new FormData(form);
     const name = String(data.get("name") || "").trim();
@@ -29,6 +47,7 @@ export function ContactForm() {
     if (!message) nextErrors.message = "Please enter a message.";
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length) {
+      event.preventDefault();
       setStatus({
         type: "error",
         message: "Please correct the highlighted fields.",
@@ -36,56 +55,45 @@ export function ContactForm() {
       return;
     }
 
-    setStatus({ type: "sending", message: "Sending your message…" });
-    try {
-      const response = await fetch(
-        "https://formsubmit.co/ajax/lilamen2026@gmail.com",
-        {
-          method: "POST",
-          headers: { Accept: "application/json" },
-          body: data,
-        },
-      );
-      const result = (await response.json().catch(() => null)) as {
-        success?: string | boolean;
-        message?: string;
-      } | null;
-      if (
-        !response.ok ||
-        result?.success === false ||
-        result?.success === "false"
-      ) {
-        throw new Error(
-          result?.message ||
-            "The message service could not accept your message.",
-        );
-      }
-      form.reset();
-      setErrors({});
-      setStatus({
-        type: "success",
-        message: "Thank you. Your message has been sent to LILAMEN.",
-      });
-    } catch (error) {
+    if (!accessKey) {
+      event.preventDefault();
       setStatus({
         type: "error",
         message:
-          error instanceof Error
-            ? error.message
-            : "Your message could not be sent. Please email us directly instead.",
+          "Online messages are temporarily unavailable. Please email lilamen2026@gmail.com directly.",
       });
+      return;
     }
+    setStatus({ type: "sending", message: "Sending your message…" });
   }
 
   return (
-    <form className="contact-form" onSubmit={submit} noValidate>
+    <form
+      className="contact-form"
+      action="https://api.web3forms.com/submit"
+      method="POST"
+      onSubmit={submit}
+      noValidate
+    >
+      <input type="hidden" name="access_key" value={accessKey} />
       <input
         type="hidden"
-        name="_subject"
+        name="subject"
         value="New message from liliamen.com"
       />
-      <input type="hidden" name="_template" value="table" />
-      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="from_name" value="LILAMEN website" />
+      <input
+        type="hidden"
+        name="redirect"
+        value="https://liliamen.com/contact/?sent=1"
+      />
+      <input
+        type="checkbox"
+        name="botcheck"
+        className="form-botcheck"
+        tabIndex={-1}
+        autoComplete="off"
+      />
       <div className="field">
         <label htmlFor="contact-name">
           Customer name <span>Required</span>

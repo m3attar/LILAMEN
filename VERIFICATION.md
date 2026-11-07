@@ -31,9 +31,15 @@ The interface uses ordinary React state, localStorage with guarded reads/writes,
 
 ## Remaining launch work
 
-Confirm product specifications, ingredients, safety/use instructions and stock availability. Approve FormSubmit's one-time activation email at `lilamen2026@gmail.com`. Implement and verify server-authoritative pricing, a payment provider, signed payment webhooks, order records, inventory, shipping, taxes, fulfillment and transactional emails. Approve privacy, terms, return policies and public hosting access. Run direct Safari/iPad and complete checkout/refund testing.
+Confirm product specifications, ingredients, safety/use instructions and stock availability. Add the Web3Forms access key for `lilamen2026@gmail.com` as the `WEB3FORMS_ACCESS_KEY` GitHub Actions repository variable. Implement and verify server-authoritative pricing, a payment provider, signed payment webhooks, order records, inventory, shipping, taxes, fulfillment and transactional emails. Approve privacy, terms, return policies and public hosting access. Run direct Safari/iPad and complete checkout/refund testing.
 
-No real order, payment, inventory or shipping integration exists in this prototype. The contact form sends the submitted name, reply email and message through FormSubmit after mailbox activation. Checkout remains disabled.
+No real order, payment, inventory or shipping integration exists in this prototype. The contact form sends the submitted name, reply email and message through Web3Forms after its public access key is configured. Checkout remains disabled.
+
+## Contact delivery investigation
+
+The former FormSubmit AJAX request was reproduced against production. Chrome reported that the response lacked `Access-Control-Allow-Origin`, failed the request with `net::ERR_FAILED`, and the UI surfaced the raw `Failed to fetch` message. Direct OPTIONS and POST checks also received Cloudflare HTTP 522 from FormSubmit. A native HTML POST avoids CORS but still received the same 522, so the service was replaced rather than masking the browser error.
+
+Web3Forms' official documentation specifies a native `POST https://api.web3forms.com/submit` integration and states that an input named `email` becomes Reply-To by default. Although it also documents JSON fetch support, a live preflight check from `https://liliamen.com` was rejected without an allow-origin header. The implementation therefore uses the documented URL-encoded browser form submission, which does not require CORS. Success is shown locally only after Web3Forms accepts the submission and redirects to `/contact/?sent=1`.
 
 ## Product-image update and GitHub preparation
 

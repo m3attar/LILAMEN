@@ -693,6 +693,12 @@ details p {
   display: grid;
   gap: 19px;
 }
+.form-botcheck {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+}
 .field label {
   display: flex;
   justify-content: space-between;
