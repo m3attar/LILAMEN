@@ -21,8 +21,8 @@ export function Footer() {
         <div>
           <span className="eyebrow">A NOTE BEFORE YOU SHOP</span>
           <p>
-            This is a storefront preview. Prices and
-            <br className="desktop" /> availability are being finalized.
+            Build your scent selection and save it to your bag.
+            <br className="desktop" /> Checkout is being finalized.
             <br />
             Orders are not open yet.
           </p>

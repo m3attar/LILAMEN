@@ -1,5 +1,6 @@
 import { products } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
+import { PurchaseBuilder } from "@/components/purchase-builder";
 export const metadata = { title: "The collection" };
 export default function Shop() {
   return (
@@ -22,10 +23,11 @@ export default function Shop() {
           <ProductCard key={p.slug} product={p} index={i} />
         ))}
       </div>
+      <PurchaseBuilder />
       <aside className="preview-note">
-        A collection in the making. Prices, product details, and availability
-        are pending confirmation. You can explore and build a preview bag;
-        ordering is not open.
+        Build a single cube or a package with any mix of our five scents.
+        Checkout remains unavailable while shipping and payment operations are
+        finalized.
       </aside>
     </div>
   );

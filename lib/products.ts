@@ -19,7 +19,7 @@ export const products: Product[] = [
     description:
       "A berry-inspired scent for those drawn to a softer, fruit-forward mood.",
     color: "#7d3e4b",
-    price: null,
+    price: 3.99,
     availability: "preview",
     image: assetPath("/visuals/berry.png"),
     imageAlt:
@@ -31,7 +31,7 @@ export const products: Product[] = [
     family: "WOODY · DEEP",
     description: "An oud-inspired scent with a warm, wood-centered character.",
     color: "#65513b",
-    price: null,
+    price: 3.99,
     availability: "preview",
     image: assetPath("/visuals/oud.png"),
     imageAlt:
@@ -44,7 +44,7 @@ export const products: Product[] = [
     description:
       "A scent named for a fresh, quietly intriguing mood. Final fragrance notes are coming soon.",
     color: "#476777",
-    price: null,
+    price: 3.99,
     availability: "preview",
     image: assetPath("/visuals/blue-magic.png"),
     imageAlt:
@@ -56,7 +56,7 @@ export const products: Product[] = [
     family: "CITRUS · BRIGHT",
     description: "A lemon-inspired scent for a bright, citrus-minded moment.",
     color: "#9c833d",
-    price: null,
+    price: 3.99,
     availability: "preview",
     image: assetPath("/visuals/lemon.png"),
     imageAlt:
@@ -68,7 +68,7 @@ export const products: Product[] = [
     family: "TROPICAL · SUNNY",
     description: "A papaya-inspired scent with a sunny, fruit-forward mood.",
     color: "#b16c48",
-    price: null,
+    price: 3.99,
     availability: "preview",
     image: assetPath("/visuals/papaya.png"),
     imageAlt:

@@ -43,17 +43,19 @@ app/
   shop/page.tsx                    All five scents
   products/[slug]/page.tsx          Five generated product pages
   our-story/page.tsx                Brand introduction
-  contact/page.tsx                  Contact status and FAQs
-  cart/page.tsx                     Persistent preview bag
+  contact/page.tsx                  Contact details and message form
+  cart/page.tsx                     Persistent package-selection bag
   not-found.tsx, icon.svg           Custom 404 and site icon
 components/
   header.tsx, footer.tsx            Shared navigation
   cart-provider.tsx                localStorage state and synchronization
-  product-card.tsx, add-to-cart.tsx Reusable product UI
+  product-card.tsx                  Reusable product UI
+  purchase-builder.tsx              Package and scent selection
+  contact-form.tsx                  Validated FormSubmit integration
   arrow.tsx                        Font-independent SVG icon
 lib/
-  products.ts                      Typed catalog; all prices are null
-  cart.ts                          Defensive cart normalization and totals
+  products.ts                      Typed five-scent catalog
+  cart.ts                          Package definitions, normalization and totals
 public/visuals/                     Five original product PNGs and retained SVG assets
  tests/cart.test.ts                 Cart and catalog unit tests
  tests/browser.mjs                  Real Chromium end-to-end checks
@@ -63,16 +65,16 @@ public/visuals/                     Five original product PNGs and retained SVG 
 
 ## Data and business boundaries
 
-- Product prices are deliberately `null` in `lib/products.ts`; the UI says **Price pending**. No fake prices, reviews, specifications, or certifications.
-- Cart quantities are whole numbers from 1–99. Unknown products are discarded, duplicate products are merged, corrupt stored JSON is handled, and unavailable storage is reported. The cart persists across navigation and reloads and synchronizes storage changes across tabs.
-- Subtotals stay **Pending prices** when any included product lacks a confirmed price. Checkout is disabled for every preview bag. Adding an item neither reserves inventory nor creates an order.
+- Prices are $3.99 for one cube, $9.99 for three, $14.99 for five and $21.99 for nine. Every option supports a freely mixed, exact-count selection of the five scents.
+- Each cart line preserves its purchase option and scent quantities. Identical or different selections remain separate lines; line quantities are whole numbers from 1–99. Invalid packages and corrupt stored JSON are discarded. The cart persists across navigation and reloads and synchronizes storage changes across tabs.
+- Subtotals use the fixed package prices. Checkout remains disabled while payment, shipping and order operations are unfinished. Adding a selection neither reserves inventory nor creates an order.
 - Product imagery uses the five supplied original PNGs, preserved byte-for-byte at 1254 × 1254 pixels. The earlier SVG illustrations remain in the repository, but storefront imagery uses the PNGs.
-- Contact details have not been supplied. The Contact page clearly says the channel is not open and does not collect personal data.
-- There are no payment, shipping, tax, inventory, order management, authentication, analytics, email, or contact submission integrations in this storefront.
+- Contact messages submit to `lilamen2026@gmail.com` through FormSubmit's static-site-compatible AJAX endpoint. The mailbox owner must approve FormSubmit's one-time activation email after the first submission. No private key is stored in the frontend.
+- There are no payment, shipping, tax, inventory, order management, authentication, analytics, or transactional email integrations in this storefront.
 
 ## Before accepting real orders
 
-Supply and approve prices, availability, final product photographs, dimensions, materials, ingredients, use and safety guidance. Confirm shipping regions, fulfillment, taxes, returns and privacy/terms. Configure a payment provider using server-side secrets and authoritative server-side pricing; verify signed payment webhooks, order records and stock handling. Add a working support channel and transactional email. Test checkout, refunds, accessibility, and the exact iPad/Safari versions you support. Changing a price field alone must not enable checkout.
+Approve availability, final product photographs, dimensions, materials, ingredients, use and safety guidance. Confirm shipping regions, fulfillment, taxes, returns and privacy/terms. Activate FormSubmit from the email sent to `lilamen2026@gmail.com`. Configure a payment provider using server-side secrets and authoritative server-side pricing; verify signed payment webhooks, order records and stock handling. Test checkout, refunds, accessibility, and the exact iPad/Safari versions you support.
 
 See `VERIFICATION.md` for actual run results and the DisposableStack investigation.
 

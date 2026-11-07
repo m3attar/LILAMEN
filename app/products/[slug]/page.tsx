@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { products, productBySlug, priceLabel } from "@/lib/products";
-import { AddToCart } from "@/components/add-to-cart";
+import { PurchaseBuilder } from "@/components/purchase-builder";
 import { ProductCard } from "@/components/product-card";
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -42,10 +42,7 @@ export default async function ProductPage({
             <p className="price">
               {priceLabel(p)} <span>USD</span>
             </p>
-            <p className="availability">
-              ● Preview collection · availability pending
-            </p>
-            <AddToCart slug={p.slug} />
+            <p className="availability">● Available for scent selection</p>
             <details open>
               <summary>The little details</summary>
               <p>
@@ -64,6 +61,9 @@ export default async function ProductPage({
             </details>
           </div>
         </div>
+      </div>
+      <div className="section product-builder-wrap">
+        <PurchaseBuilder initialScent={p.slug} />
       </div>
       <section className="section related">
         <p className="eyebrow">ANOTHER MOOD, ANOTHER MOMENT</p>

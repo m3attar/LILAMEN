@@ -83,7 +83,7 @@ export default function Home() {
           ))}
         </div>
         <p className="collection-note">
-          The collection is taking shape. All prices are pending configuration.
+          Single cubes from $3.99. Build a package with any mix of five scents.
         </p>
       </section>
       <section className="story-feature">

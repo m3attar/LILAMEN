@@ -69,61 +69,137 @@ for (const route of routes) {
   assert.equal(overflow, false, route);
   results.push(`PASS route and images ${route}`);
 }
-await page.goto(site + "/products/oud/");
-await page.getByRole("button", { name: "Add to bag" }).click();
-await page.getByRole("link", { name: "View bag" }).click();
-await page.getByRole("heading", { name: "Oud", exact: true }).waitFor();
+await page.goto(site + "/shop/");
+const optionPrices = [
+  ["Single Cube", "$3.99", 1],
+  ["3-Cube Package", "$9.99", 3],
+  ["5-Cube Package", "$14.99", 5],
+  ["9-Cube Package", "$21.99", 9],
+];
+for (const [name, price, cubes] of optionPrices) {
+  const option = page.getByRole("radio", { name: new RegExp(name) });
+  await option.click();
+  assert.ok((await option.textContent()).includes(price));
+  for (let index = 0; index < cubes; index++) {
+    await page.getByRole("button", { name: "Increase Lemon" }).click();
+  }
+  assert.equal(
+    await page
+      .getByRole("button", { name: "Add selection to bag" })
+      .isDisabled(),
+    false,
+  );
+  assert.equal(
+    await page.getByRole("button", { name: "Increase Berry" }).isDisabled(),
+    true,
+  );
+}
+results.push("PASS all four options, prices, exact counts, and maximum limits");
+
+await page.getByRole("radio", { name: /3-Cube Package/ }).click();
+const addSelection = page.getByRole("button", {
+  name: /Choose .* more|Add selection to bag/,
+});
+assert.equal(await addSelection.isDisabled(), true);
+await page.getByRole("button", { name: "Increase Berry" }).click();
+await page.getByRole("button", { name: "Increase Berry" }).click();
+await page.getByRole("button", { name: "Increase Oud" }).click();
 assert.equal(
-  await page.getByRole("spinbutton", { name: "Oud quantity" }).inputValue(),
+  await page.getByText("3 / 3 cubes", { exact: true }).isVisible(),
+  true,
+);
+assert.equal(
+  await page.getByRole("button", { name: "Increase Lemon" }).isDisabled(),
+  true,
+);
+await page.getByRole("button", { name: "Add selection to bag" }).click();
+await page.getByRole("link", { name: "View bag" }).click();
+await page.getByRole("heading", { name: "3-Cube Package" }).waitFor();
+assert.ok(await page.getByText("2 Berry · 1 Oud").isVisible());
+assert.equal(
+  await page
+    .getByRole("spinbutton", { name: "3-Cube Package quantity" })
+    .inputValue(),
   "1",
 );
-await page.getByRole("button", { name: "Increase Oud quantity" }).click();
+await page
+  .getByRole("button", { name: "Increase 3-Cube Package quantity" })
+  .click();
 assert.equal(
-  await page.getByRole("spinbutton", { name: "Oud quantity" }).inputValue(),
+  await page
+    .getByRole("spinbutton", { name: "3-Cube Package quantity" })
+    .inputValue(),
   "2",
 );
 await page.reload();
 assert.equal(
-  await page.getByRole("spinbutton", { name: "Oud quantity" }).inputValue(),
+  await page
+    .getByRole("spinbutton", { name: "3-Cube Package quantity" })
+    .inputValue(),
   "2",
 );
-await page.getByRole("spinbutton", { name: "Oud quantity" }).fill("999");
-await page.getByRole("spinbutton", { name: "Oud quantity" }).blur();
+await page
+  .getByRole("spinbutton", { name: "3-Cube Package quantity" })
+  .fill("999");
+await page.getByRole("spinbutton", { name: "3-Cube Package quantity" }).blur();
 assert.equal(
-  await page.getByRole("spinbutton", { name: "Oud quantity" }).inputValue(),
+  await page
+    .getByRole("spinbutton", { name: "3-Cube Package quantity" })
+    .inputValue(),
   "99",
 );
 assert.equal(
   await page.getByRole("button", { name: "Checkout unavailable" }).isDisabled(),
   true,
 );
-assert.ok(await page.getByText("Pending prices", { exact: true }).isVisible());
-await page.getByRole("button", { name: "Remove Oud" }).click();
+assert.ok(await page.getByText("$989.01", { exact: true }).isVisible());
+await page.getByRole("button", { name: "Remove 3-Cube Package" }).click();
 await page.getByRole("heading", { name: "A little empty, for now." }).waitFor();
 await page.reload();
 await page.getByRole("heading", { name: "A little empty, for now." }).waitFor();
 results.push(
-  "PASS add / update / cap / reload persistence / disabled checkout / remove / empty persistence",
+  "PASS mixed package add / update / cap / persistence / pricing / remove",
 );
-await page.evaluate(() => localStorage.setItem("lilamen.cart.v1", "{bad json"));
+await page.evaluate(() => localStorage.setItem("lilamen.cart.v2", "{bad json"));
 await page.reload();
 await page.getByRole("heading", { name: "A little empty, for now." }).waitFor();
 results.push("PASS corrupted localStorage recovery");
 await page.evaluate(() =>
   localStorage.setItem(
-    "lilamen.cart.v1",
+    "lilamen.cart.v2",
     JSON.stringify([
-      { slug: "missing", quantity: 3 },
-      { slug: "berry", quantity: -8 },
+      { optionId: "missing", scents: { berry: 1 }, quantity: 3 },
+      {
+        id: "single-test",
+        optionId: "single",
+        scents: { berry: 1 },
+        quantity: -8,
+      },
     ]),
   ),
 );
 await page.reload();
 assert.equal(
-  await page.getByRole("spinbutton", { name: "Berry quantity" }).inputValue(),
+  await page
+    .getByRole("spinbutton", { name: "Single Cube quantity" })
+    .inputValue(),
   "1",
 );
-results.push("PASS missing product and invalid quantity recovery");
+results.push("PASS invalid package and quantity recovery");
+
+await page.goto(site + "/contact/");
+await page.getByRole("button", { name: "Send message" }).click();
+assert.ok(
+  await page.getByText("Please enter your email so we can reply.").isVisible(),
+);
+await page.getByLabel(/Customer name/).fill("Test Customer");
+await page.getByLabel(/Customer email/).fill("not-an-email");
+await page.getByLabel(/^Message/).fill("A test message");
+await page.getByRole("button", { name: "Send message" }).click();
+assert.ok(
+  await page.getByText("Please enter a valid email address.").isVisible(),
+);
+results.push("PASS contact required fields and email validation");
 const links = new Set();
 for (const route of routes) {
   await page.goto(site + route);

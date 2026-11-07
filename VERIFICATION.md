@@ -1,21 +1,21 @@
 # LILAMEN verification
 
-Verified on October 21, 2026, using Node 24.19.0, npm 11.9.0, Next.js 15.5.28, React 19.1.10 and Chromium 154.0.8037.57.
+Verified on November 7, 2026, using Next.js 15.5.28, React 19.1.10 and Chromium 156.0.8078.4.
 
 | Check                       | Actual result                                          |
 | --------------------------- | ------------------------------------------------------ |
 | Dependency installation     | npm install completed; package-lock.json committed     |
 | TypeScript                  | npm run typecheck passed                               |
 | ESLint                      | npm run lint passed, no warnings                       |
-| Unit tests                  | npm test: 5 passed, 0 failed                           |
+| Unit tests                  | npm test: 6 passed, 0 failed                           |
 | Production build            | npm run build passed; all five product paths generated |
 | Development server          | Started successfully; homepage HTTP 200 on port 3001   |
-| Production browser checks   | npm run test:browser passed all 20 check groups        |
+| Production browser checks   | npm run test:browser passed all 22 check groups        |
 | Production dependency audit | npm audit --omit=dev: 0 vulnerabilities reported       |
 
 Browser checks ran against the actual production export served locally, rather than screenshots or mocked React components. The development server was also started and checked independently. All ten requested non-error routes returned HTTP 200; the custom missing-page route returned HTTP 404. All ten distinct internal link targets returned HTTP 200. No broken images, unexpected HTTP errors, request failures, or application console errors were found. The intentionally missing URL's expected HTTP 404 console message is excluded from the error assertion.
 
-Cart interactions verified: add Oud from its product page; navigate to the bag; increment; refresh and retain quantity; cap excessive quantity at 99; verify checkout is disabled and subtotal is pending; remove; refresh and retain the empty state. Invalid stored JSON, an unknown product and a negative saved quantity were also tested. Unit tests additionally cover duplicate merges, non-finite and fractional quantities, missing data and unconfirmed prices.
+Purchase interactions verified all four package sizes and prices, exact-count enforcement, maximum limits, a mixed 2 Berry + 1 Oud package, subtotal calculation, line-quantity updates, persistence, removal, and invalid-storage recovery. Contact required fields and email-format validation were also browser-tested.
 
 All ten routes were checked for horizontal overflow at 1440×1000, 390×844, 768×1024 and 1024×768. Full-page home screenshots were captured and reviewed. Mobile menu navigation and keyboard skip navigation passed. These are Chromium viewport tests, not physical iPhone or iPad tests.
 
@@ -31,9 +31,9 @@ The interface uses ordinary React state, localStorage with guarded reads/writes,
 
 ## Remaining launch work
 
-Confirm all prices, product specifications, images, ingredients, safety/use instructions and stock availability. Provide an official support channel. Implement and verify server-authoritative pricing, a payment provider, signed payment webhooks, order records, inventory, shipping, taxes, fulfillment and transactional emails. Approve privacy, terms, return policies and public hosting access. Run direct Safari/iPad and complete checkout/refund testing.
+Confirm product specifications, ingredients, safety/use instructions and stock availability. Approve FormSubmit's one-time activation email at `lilamen2026@gmail.com`. Implement and verify server-authoritative pricing, a payment provider, signed payment webhooks, order records, inventory, shipping, taxes, fulfillment and transactional emails. Approve privacy, terms, return policies and public hosting access. Run direct Safari/iPad and complete checkout/refund testing.
 
-No real order, payment, inventory or shipping integration exists in this prototype. No payment or contact details are collected. Checkout remains disabled even if a catalog price is later edited.
+No real order, payment, inventory or shipping integration exists in this prototype. The contact form sends the submitted name, reply email and message through FormSubmit after mailbox activation. Checkout remains disabled.
 
 ## Product-image update and GitHub preparation
 
@@ -45,6 +45,6 @@ The separate private image-review Site remains available for device review; the 
 
 ## GitHub Pages compatibility
 
-The static export was built and browser-tested at the root path used by `https://liliamen.com/`. All 20 Chromium browser-check groups passed. TypeScript, ESLint and all five unit tests passed. Root-relative Next.js navigation, framework assets, product PNGs, nested product routes, custom 404 links and the persistent client-side cart were checked.
+The static export was built and browser-tested at the root path used by `https://liliamen.com/`. All 22 Chromium browser-check groups passed. TypeScript, ESLint and all six unit tests passed. Root-relative Next.js navigation, framework assets, product PNGs, nested product routes, custom 404 links and the persistent client-side cart were checked.
 
 The Pages workflow uploads only `out/`; it does not expose source files, `.env` files, installed dependencies or credentials. The public base path is build configuration, not a secret. GitHub Pages remains a storefront prototype with checkout disabled. Actual deployment status must be verified in GitHub Actions; local compatibility tests alone do not establish a live public URL. No ChatGPT-hosted Site is deployed or reconfigured by this workflow.

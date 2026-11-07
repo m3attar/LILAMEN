@@ -11,15 +11,16 @@ import {
   sanitizeCart,
   validQuantity,
   type CartItem,
+  type PurchaseOptionId,
+  type ScentSelection,
 } from "@/lib/cart";
-import { productBySlug } from "@/lib/products";
 type CartContextType = {
   items: CartItem[];
   ready: boolean;
   notice: string;
-  add: (slug: string, quantity?: number) => void;
-  update: (slug: string, quantity: number) => void;
-  remove: (slug: string) => void;
+  addPurchase: (optionId: PurchaseOptionId, scents: ScentSelection) => void;
+  update: (id: string, quantity: number) => void;
+  remove: (id: string) => void;
 };
 const CartContext = createContext<CartContextType | null>(null);
 export function CartProvider({ children }: { children: ReactNode }) {
@@ -58,13 +59,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
     }
   }, [items, ready]);
-  const add = (slug: string, quantity = 1) => {
-    const p = productBySlug(slug);
-    if (!p) return;
+  const addPurchase = (optionId: PurchaseOptionId, scents: ScentSelection) => {
+    const id = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
     setItems((prev) =>
-      sanitizeCart([...prev, { slug, quantity: validQuantity(quantity) }]),
+      sanitizeCart([...prev, { id, optionId, scents, quantity: 1 }]),
     );
-    setNotice(`${p.name} added to your bag.`);
+    setNotice("Your scent selection was added to your bag.");
   };
   return (
     <CartContext.Provider
@@ -72,15 +72,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
         items,
         ready,
         notice,
-        add,
-        update: (slug, quantity) =>
+        addPurchase,
+        update: (id, quantity) =>
           setItems((prev) =>
             prev.map((i) =>
-              i.slug === slug ? { ...i, quantity: validQuantity(quantity) } : i,
+              i.id === id ? { ...i, quantity: validQuantity(quantity) } : i,
             ),
           ),
-        remove: (slug) =>
-          setItems((prev) => prev.filter((i) => i.slug !== slug)),
+        remove: (id) => setItems((prev) => prev.filter((i) => i.id !== id)),
       }}
     >
       {children}
