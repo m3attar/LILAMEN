@@ -48,7 +48,7 @@ const structuredData = {
       name: "Liliamen",
       alternateName: "LILIAMEN",
       url: "https://liliamen.com/",
-      email: "lilamen2026@gmail.com",
+      email: "Liliamen.Support@gmail.com",
       sameAs: [
         "https://www.instagram.com/lilamen26/",
         "https://www.tiktok.com/@lilamen2026",

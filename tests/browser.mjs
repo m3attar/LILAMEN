@@ -95,6 +95,10 @@ assert.equal(seo.openGraphUrl, "https://liliamen.com/");
 assert.equal(seo.openGraphSite, "LILIAMEN");
 assert.equal(seo.structuredData["@graph"][0].name, "Liliamen");
 assert.equal(seo.structuredData["@graph"][0].url, "https://liliamen.com/");
+assert.equal(
+  seo.structuredData["@graph"][0].email,
+  "Liliamen.Support@gmail.com",
+);
 const sitemapResponse = await context.request.get(origin + "/sitemap.xml");
 assert.equal(sitemapResponse.status(), 200);
 const sitemapText = await sitemapResponse.text();
@@ -281,6 +285,13 @@ assert.equal(
 results.push("PASS invalid package and quantity recovery");
 
 await page.goto(site + "/contact/");
+assert.equal(
+  await page
+    .getByRole("link", { name: "Liliamen.Support@gmail.com" })
+    .first()
+    .getAttribute("href"),
+  "mailto:Liliamen.Support@gmail.com",
+);
 const contactForm = page.locator("form.contact-form");
 assert.equal(
   await contactForm.getAttribute("action"),

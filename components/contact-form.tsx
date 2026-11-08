@@ -60,7 +60,7 @@ export function ContactForm() {
       setStatus({
         type: "error",
         message:
-          "Online messages are temporarily unavailable. Please email lilamen2026@gmail.com directly.",
+          "Online messages are temporarily unavailable. Please email Liliamen.Support@gmail.com directly.",
       });
       return;
     }

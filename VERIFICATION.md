@@ -31,7 +31,7 @@ The interface uses ordinary React state, localStorage with guarded reads/writes,
 
 ## Remaining launch work
 
-Confirm product specifications, ingredients, safety/use instructions and stock availability. Add the Web3Forms access key for `lilamen2026@gmail.com` as the `WEB3FORMS_ACCESS_KEY` GitHub Actions repository variable. Implement and verify server-authoritative pricing, a payment provider, signed payment webhooks, order records, inventory, shipping, taxes, fulfillment and transactional emails. Approve privacy, terms, return policies and public hosting access. Run direct Safari/iPad and complete checkout/refund testing.
+Confirm product specifications, ingredients, safety/use instructions and stock availability. Add the Web3Forms access key for `Liliamen.Support@gmail.com` as the `WEB3FORMS_ACCESS_KEY` GitHub Actions repository variable. Implement and verify server-authoritative pricing, a payment provider, signed payment webhooks, order records, inventory, shipping, taxes, fulfillment and transactional emails. Approve privacy, terms, return policies and public hosting access. Run direct Safari/iPad and complete checkout/refund testing.
 
 No real order, payment, inventory or shipping integration exists in this prototype. The contact form sends the submitted name, reply email and message through Web3Forms after its public access key is configured. Checkout remains disabled.
 

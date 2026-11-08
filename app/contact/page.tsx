@@ -23,8 +23,8 @@ export default function Contact() {
           <h2>
             We’re here to <em>listen.</em>
           </h2>
-          <a className="contact-email" href="mailto:lilamen2026@gmail.com">
-            lilamen2026@gmail.com
+          <a className="contact-email" href="mailto:Liliamen.Support@gmail.com">
+            Liliamen.Support@gmail.com
           </a>
           <div className="social-links">
             <a

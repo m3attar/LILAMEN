@@ -26,6 +26,9 @@ export function Footer() {
             <br />
             Orders are not open yet.
           </p>
+          <a href="mailto:Liliamen.Support@gmail.com">
+            Liliamen.Support@gmail.com
+          </a>
         </div>
       </div>
       <div className="footer-bottom">

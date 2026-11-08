@@ -78,7 +78,7 @@ Approve availability, final product photographs, dimensions, materials, ingredie
 
 ## Contact form setup
 
-1. Request a free Web3Forms access key for `lilamen2026@gmail.com` at `https://web3forms.com/` and retrieve it from that mailbox.
+1. Request a free Web3Forms access key for `Liliamen.Support@gmail.com` at `https://web3forms.com/` and retrieve it from that mailbox.
 2. In the GitHub repository, open **Settings → Secrets and variables → Actions → Variables**.
 3. Create a repository variable named `WEB3FORMS_ACCESS_KEY` with the access key as its value.
 4. Re-run the **Deploy LILIAMEN to GitHub Pages** workflow (or push a commit) so Next.js embeds the public access key during the static build.
