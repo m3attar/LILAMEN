@@ -99,6 +99,11 @@ assert.equal(
   seo.structuredData["@graph"][0].email,
   "Liliamen.Support@gmail.com",
 );
+assert.ok(
+  seo.structuredData["@graph"][0].sameAs.includes(
+    "https://www.instagram.com/liliamen_/",
+  ),
+);
 const sitemapResponse = await context.request.get(origin + "/sitemap.xml");
 assert.equal(sitemapResponse.status(), 200);
 const sitemapText = await sitemapResponse.text();
@@ -285,6 +290,14 @@ assert.equal(
 results.push("PASS invalid package and quantity recovery");
 
 await page.goto(site + "/contact/");
+const instagramLinks = page.locator(
+  'a[href="https://www.instagram.com/liliamen_/"]',
+);
+assert.equal(await instagramLinks.count(), 2);
+for (const instagramLink of await instagramLinks.all()) {
+  assert.equal(await instagramLink.getAttribute("target"), "_blank");
+  assert.equal(await instagramLink.getAttribute("rel"), "noreferrer");
+}
 assert.equal(
   await page
     .getByRole("link", { name: "Liliamen.Support@gmail.com" })

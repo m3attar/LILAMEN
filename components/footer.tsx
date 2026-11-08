@@ -29,6 +29,13 @@ export function Footer() {
           <a href="mailto:Liliamen.Support@gmail.com">
             Liliamen.Support@gmail.com
           </a>
+          <a
+            href="https://www.instagram.com/liliamen_/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Instagram @liliamen_
+          </a>
         </div>
       </div>
       <div className="footer-bottom">

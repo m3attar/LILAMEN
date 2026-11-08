@@ -28,7 +28,7 @@ export default function Contact() {
           </a>
           <div className="social-links">
             <a
-              href="https://www.instagram.com/lilamen26/"
+              href="https://www.instagram.com/liliamen_/"
               target="_blank"
               rel="noreferrer"
               aria-label="LILIAMEN on Instagram"
@@ -39,7 +39,7 @@ export default function Contact() {
                 <circle cx="17.5" cy="6.5" r="1" className="fill" />
               </svg>
               <span>
-                Instagram<small>@lilamen26</small>
+                Instagram<small>@liliamen_</small>
               </span>
             </a>
             <a
