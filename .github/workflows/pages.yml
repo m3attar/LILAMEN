@@ -1,4 +1,4 @@
-name: Deploy LILAMEN to GitHub Pages
+name: Deploy LILIAMEN to GitHub Pages
 
 on:
   push:
@@ -43,7 +43,7 @@ jobs:
       - name: Verify the GitHub Pages build in Chromium
         run: |
           mkdir -p work
-          python3 tests/serve-export.py > "$RUNNER_TEMP/lilamen-preview.log" 2>&1 &
+          python3 tests/serve-export.py > "$RUNNER_TEMP/liliamen-preview.log" 2>&1 &
           preview_pid=$!
           trap 'kill "$preview_pid" 2>/dev/null || true' EXIT
           for attempt in {1..30}; do

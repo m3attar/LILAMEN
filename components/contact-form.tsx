@@ -22,7 +22,7 @@ export function ContactForm() {
       setStatus({
         type: "success",
         message:
-          "Thank you. Your message has been accepted and sent to LILAMEN.",
+          "Thank you. Your message has been accepted and sent to LILIAMEN.",
       });
       url.searchParams.delete("sent");
       window.history.replaceState(
@@ -81,7 +81,7 @@ export function ContactForm() {
         name="subject"
         value="New message from liliamen.com"
       />
-      <input type="hidden" name="from_name" value="LILAMEN website" />
+      <input type="hidden" name="from_name" value="LILIAMEN website" />
       <input
         type="hidden"
         name="redirect"

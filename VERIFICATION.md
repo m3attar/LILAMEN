@@ -1,4 +1,4 @@
-# LILAMEN verification
+# LILIAMEN verification
 
 Verified on November 7, 2026, using Next.js 15.5.28, React 19.1.10 and Chromium 156.0.8078.4.
 

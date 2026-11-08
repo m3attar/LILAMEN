@@ -57,6 +57,16 @@ for (const route of routes) {
   assert.equal(response.status(), 200, route);
   await page.locator("h1").waitFor();
   assert.equal(await page.locator("main").count(), 1);
+  assert.equal(
+    /\bLILAMEN\b/i.test(await page.locator("body").innerText()),
+    false,
+  );
+  assert.ok((await page.title()).includes("LILIAMEN"), `brand title ${route}`);
+  assert.equal(
+    await page.locator('link[rel="canonical"]').getAttribute("href"),
+    `https://liliamen.com${route}`,
+    `canonical ${route}`,
+  );
   const broken = await page
     .locator("img")
     .evaluateAll((imgs) =>
@@ -69,6 +79,36 @@ for (const route of routes) {
   assert.equal(overflow, false, route);
   results.push(`PASS route and images ${route}`);
 }
+await page.goto(site + "/");
+const seo = await page.evaluate(() => ({
+  canonical: document.querySelector('link[rel="canonical"]')?.href,
+  openGraphUrl: document.querySelector('meta[property="og:url"]')?.content,
+  openGraphSite: document.querySelector('meta[property="og:site_name"]')
+    ?.content,
+  structuredData: JSON.parse(
+    document.querySelector('script[type="application/ld+json"]')?.textContent ||
+      "null",
+  ),
+}));
+assert.equal(seo.canonical, "https://liliamen.com/");
+assert.equal(seo.openGraphUrl, "https://liliamen.com/");
+assert.equal(seo.openGraphSite, "LILIAMEN");
+assert.equal(seo.structuredData["@graph"][0].name, "Liliamen");
+assert.equal(seo.structuredData["@graph"][0].url, "https://liliamen.com/");
+const sitemapResponse = await context.request.get(origin + "/sitemap.xml");
+assert.equal(sitemapResponse.status(), 200);
+const sitemapText = await sitemapResponse.text();
+assert.ok(sitemapText.includes("https://liliamen.com/products/berry/"));
+assert.equal(/\blilamen\.com\b/i.test(sitemapText), false);
+const robotsResponse = await context.request.get(origin + "/robots.txt");
+assert.equal(robotsResponse.status(), 200);
+assert.ok(
+  (await robotsResponse.text()).includes(
+    "Sitemap: https://liliamen.com/sitemap.xml",
+  ),
+);
+results.push("PASS LILIAMEN branding, canonical metadata, sitemap, and robots");
+
 await page.goto(site + "/shop/");
 const cardPresentation = await page
   .locator(".product-card")

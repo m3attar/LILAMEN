@@ -1,7 +1,11 @@
 import { products } from "@/lib/products";
 import { Arrow } from "@/components/arrow";
 import Link from "next/link";
-export const metadata = { title: "Our story" };
+export const metadata = {
+  title: "Our story",
+  alternates: { canonical: "/our-story/" },
+  openGraph: { url: "https://liliamen.com/our-story/" },
+};
 export default function Story() {
   return (
     <>
@@ -12,7 +16,7 @@ export default function Story() {
           <br />A <em>personal feeling.</em>
         </h1>
         <p>
-          LILAMEN starts with a simple idea: everyday objects can invite a
+          LILIAMEN starts with a simple idea: everyday objects can invite a
           little more intention into our spaces.
         </p>
       </section>
@@ -54,7 +58,7 @@ export default function Story() {
         </h2>
         <p>Explore the preview. Imagine your everyday.</p>
         <Link className="button" href="/shop/">
-          Explore LILAMEN <Arrow />
+          Explore LILIAMEN <Arrow />
         </Link>
       </section>
     </>

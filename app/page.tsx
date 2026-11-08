@@ -41,7 +41,7 @@ export default function Home() {
           />
           <span className="art-note">A STUDY IN SCENT & SIMPLICITY</span>
           <div className="art-caption">
-            <span>THE LILAMEN CUBE</span>
+            <span>THE LILIAMEN CUBE</span>
             <span>Small object. Endless possibility.</span>
           </div>
         </div>
@@ -98,7 +98,7 @@ export default function Home() {
           <span>LESS, WITH MORE FEELING.</span>
         </div>
         <div className="story-copy">
-          <p className="eyebrow">THE LILAMEN PERSPECTIVE</p>
+          <p className="eyebrow">THE LILIAMEN PERSPECTIVE</p>
           <h2>
             Good things
             <br />
@@ -108,7 +108,7 @@ export default function Home() {
           </h2>
           <p>
             We believe the smallest details can make an everyday space feel more
-            personal. LILAMEN brings together a familiar material, a simple
+            personal. LILIAMEN brings together a familiar material, a simple
             shape, and the quiet character of scent.
           </p>
           <Link className="text-link" href="/our-story/">

@@ -23,7 +23,7 @@ export const products: Product[] = [
     availability: "preview",
     image: assetPath("/visuals/berry.png"),
     imageAlt:
-      "LILAMEN Berry bright red textured scent cube on a warm beige background",
+      "LILIAMEN Berry bright red textured scent cube on a warm beige background",
   },
   {
     name: "Oud",
@@ -35,7 +35,7 @@ export const products: Product[] = [
     availability: "preview",
     image: assetPath("/visuals/oud.png"),
     imageAlt:
-      "LILAMEN Oud dark reddish-brown textured scent cube on a warm beige background",
+      "LILIAMEN Oud dark reddish-brown textured scent cube on a warm beige background",
   },
   {
     name: "Blue Magic",
@@ -48,7 +48,7 @@ export const products: Product[] = [
     availability: "preview",
     image: assetPath("/visuals/blue-magic.png"),
     imageAlt:
-      "LILAMEN Blue Magic blue textured scent cube on a warm beige background",
+      "LILIAMEN Blue Magic blue textured scent cube on a warm beige background",
   },
   {
     name: "Lemon",
@@ -60,7 +60,7 @@ export const products: Product[] = [
     availability: "preview",
     image: assetPath("/visuals/lemon.png"),
     imageAlt:
-      "LILAMEN Lemon yellow-gold textured scent cube on a warm beige background",
+      "LILIAMEN Lemon yellow-gold textured scent cube on a warm beige background",
   },
   {
     name: "Papaya",
@@ -72,7 +72,7 @@ export const products: Product[] = [
     availability: "preview",
     image: assetPath("/visuals/papaya.png"),
     imageAlt:
-      "LILAMEN Papaya lighter rust-red textured scent cube on a warm beige background",
+      "LILIAMEN Papaya lighter rust-red textured scent cube on a warm beige background",
   },
 ];
 export const productBySlug = (slug: string) =>

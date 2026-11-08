@@ -5,7 +5,7 @@ export function Footer() {
       <div className="footer-top">
         <div>
           <Link href="/" className="wordmark">
-            LILAMEN
+            LILIAMEN
           </Link>
           <p>
             A little object.
@@ -29,7 +29,7 @@ export function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© {new Date().getFullYear()} LILAMEN</span>
+        <span>© {new Date().getFullYear()} LILIAMEN</span>
         <span>United States · USD</span>
         <span>Scent, simply.</span>
       </div>

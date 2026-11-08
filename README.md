@@ -1,4 +1,4 @@
-# LILAMEN
+# LILIAMEN
 
 A premium storefront **prototype**, built with Next.js 15, React 19, TypeScript and Tailwind CSS 4. The production site is a static Next.js export; no server-side commerce service is implied.
 
@@ -81,7 +81,7 @@ Approve availability, final product photographs, dimensions, materials, ingredie
 1. Request a free Web3Forms access key for `lilamen2026@gmail.com` at `https://web3forms.com/` and retrieve it from that mailbox.
 2. In the GitHub repository, open **Settings → Secrets and variables → Actions → Variables**.
 3. Create a repository variable named `WEB3FORMS_ACCESS_KEY` with the access key as its value.
-4. Re-run the **Deploy LILAMEN to GitHub Pages** workflow (or push a commit) so Next.js embeds the public access key during the static build.
+4. Re-run the **Deploy LILIAMEN to GitHub Pages** workflow (or push a commit) so Next.js embeds the public access key during the static build.
 
 Until the variable exists, the form fails safely with a direct-email fallback instead of attempting an unconfigured request or showing a false success. After a successful Web3Forms response, the service redirects to `/contact/?sent=1`; only that accepted redirect produces the local success message.
 

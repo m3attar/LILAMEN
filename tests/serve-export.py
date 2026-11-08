@@ -29,7 +29,7 @@ class Handler(SimpleHTTPRequestHandler):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--base-path', default='', help='Match a static hosting prefix, e.g. /LILAMEN')
+    parser.add_argument('--base-path', default='', help='Optional static hosting prefix')
     args = parser.parse_args()
     base_path = args.base_path.rstrip('/')
     ThreadingHTTPServer(('0.0.0.0', 3000), Handler).serve_forever()

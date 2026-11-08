@@ -1,12 +1,16 @@
 import { products } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
 import { PurchaseBuilder } from "@/components/purchase-builder";
-export const metadata = { title: "The collection" };
+export const metadata = {
+  title: "The collection",
+  alternates: { canonical: "/shop/" },
+  openGraph: { url: "https://liliamen.com/shop/" },
+};
 export default function Shop() {
   return (
     <div className="section shop-page">
       <div className="page-intro">
-        <p className="eyebrow">THE LILAMEN COLLECTION</p>
+        <p className="eyebrow">THE LILIAMEN COLLECTION</p>
         <h1>
           Find your <em>little thing.</em>
         </h1>

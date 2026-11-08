@@ -11,11 +11,11 @@ export function Header() {
     <>
       <div className="announcement">
         SMALL IN FORM. PERSONAL IN FEELING.{" "}
-        <span>Meet the LILAMEN collection →</span>
+        <span>Meet the LILIAMEN collection →</span>
       </div>
       <header className="header">
-        <Link href="/" className="wordmark" aria-label="LILAMEN home">
-          LILAMEN<span>SCENT, SIMPLY.</span>
+        <Link href="/" className="wordmark" aria-label="LILIAMEN home">
+          LILIAMEN<span>SCENT, SIMPLY.</span>
         </Link>
         <nav
           id="mobile-menu"

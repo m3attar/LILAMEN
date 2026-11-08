@@ -13,7 +13,19 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const p = productBySlug((await params).slug);
-  return { title: p?.name || "Scent not found" };
+  if (!p) return { title: "Scent not found" };
+  const url = `https://liliamen.com/products/${p.slug}/`;
+  return {
+    title: p.name,
+    description: p.description,
+    alternates: { canonical: url },
+    openGraph: {
+      title: `${p.name} | LILIAMEN`,
+      description: p.description,
+      url,
+      images: [{ url: p.image, width: 1254, height: 1254, alt: p.imageAlt }],
+    },
+  };
 }
 export default async function ProductPage({
   params,
@@ -46,7 +58,7 @@ export default async function ProductPage({
             <details open>
               <summary>The little details</summary>
               <p>
-                A scented wooden cube from the LILAMEN collection. Dimensions,
+                A scented wooden cube from the LILIAMEN collection. Dimensions,
                 wood type, ingredients, use instructions, and care guidance will
                 be confirmed before launch.
               </p>
