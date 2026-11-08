@@ -70,6 +70,59 @@ for (const route of routes) {
   results.push(`PASS route and images ${route}`);
 }
 await page.goto(site + "/shop/");
+const cardPresentation = await page
+  .locator(".product-card")
+  .evaluateAll((cards) =>
+    cards.map((card) => {
+      const container = card.querySelector(".product-image");
+      const image = card.querySelector(".product-image img");
+      const price = card.querySelector(".pending");
+      const containerBox = container.getBoundingClientRect();
+      const imageBox = image.getBoundingClientRect();
+      const imageStyle = getComputedStyle(image);
+      return {
+        sameWidth: Math.abs(containerBox.width - imageBox.width) < 1,
+        sameHeight: Math.abs(containerBox.height - imageBox.height) < 1,
+        objectFit: imageStyle.objectFit,
+        padding: imageStyle.padding,
+        priceSize: parseFloat(getComputedStyle(price).fontSize),
+      };
+    }),
+  );
+assert.equal(cardPresentation.length, 5);
+assert.ok(
+  cardPresentation.every(
+    (card) =>
+      card.sameWidth &&
+      card.sameHeight &&
+      card.objectFit === "cover" &&
+      card.padding === "0px" &&
+      card.priceSize >= 16,
+  ),
+);
+await page.goto(site + "/products/berry/");
+const detailPresentation = await page
+  .locator(".detail-art img")
+  .evaluate((image) => {
+    const containerBox = image.parentElement.getBoundingClientRect();
+    const imageBox = image.getBoundingClientRect();
+    const style = getComputedStyle(image);
+    return {
+      sameWidth: Math.abs(containerBox.width - imageBox.width) < 1,
+      sameHeight: Math.abs(containerBox.height - imageBox.height) < 1,
+      objectFit: style.objectFit,
+      padding: style.padding,
+    };
+  });
+assert.deepEqual(detailPresentation, {
+  sameWidth: true,
+  sameHeight: true,
+  objectFit: "cover",
+  padding: "0px",
+});
+results.push("PASS full-bleed product images and readable desktop prices");
+
+await page.goto(site + "/shop/");
 const optionPrices = [
   ["Single Cube", "$3.99", 1],
   ["3-Cube Package", "$9.99", 3],
@@ -248,6 +301,21 @@ for (const viewport of [
     fullPage: true,
   });
   if (viewport.width === 390) {
+    await page.goto(site + "/shop/");
+    const mobilePrices = await page
+      .locator(".product-card .pending")
+      .evaluateAll((prices) =>
+        prices.map((price) => parseFloat(getComputedStyle(price).fontSize)),
+      );
+    assert.ok(mobilePrices.every((size) => size >= 15));
+    assert.equal(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth > innerWidth,
+      ),
+      false,
+    );
+    results.push("PASS readable mobile prices without overlap");
+    await page.goto(site + "/");
     await page.getByRole("button", { name: "Toggle navigation" }).click();
     await page
       .getByRole("navigation", { name: "Main navigation" })
